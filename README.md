@@ -1,0 +1,2 @@
+# GeneticAlgorytm_SudokuSolver
+SudokuSolver
