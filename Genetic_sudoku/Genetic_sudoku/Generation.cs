@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace Genetic_sudoku
         // 6 best paths have children - crossover and maybe ? mutation
        
 
-        string _path;
+        
         string[] _population;
         private Board _board;
 
@@ -34,8 +35,9 @@ namespace Genetic_sudoku
             _board = board;
         }
 
-        public string CreateStep()
+        public (string, bool) CreateStep()
         {
+            bool logic = true;
             //it cant choose occupied place
             //it cant choose a number that is already in the row or column
             //it cant choose a number that is already in the 3x3 square
@@ -47,34 +49,61 @@ namespace Genetic_sudoku
 
                number = random.Next(1, 9);
 
-            } while (_board.CheckIfAvaliable(_board._sudoku, number) == false);
+            } while (_board.CheckIfAvaliableNumber(_board._sudoku, number) == false);
             step = step + number;
             int col = 0;
             int row = 0;
+
+            Tuple<int, int>[] variations = new Tuple<int, int>[81];
+            int i = 0;
             do
             {
-                col = random.Next(0, 9);
-                row = random.Next(1, 9);
+                
+                    col = random.Next(0, 9);
+                    row = random.Next(1, 9);
+
+
+    
 
             } while (_board.CheckCords(_board._sudoku, number, row,col) == false);
 
+            logic = _board.CheckCords(_board._sudoku, number, row, col);
+
             step = step + col + row;
 
-            return step;
+            return (step, logic);
 
         }
 
-        //not the step needs to modify the board
+        
         public string CreatePath()
         {
+            string path = "";
+            var result = ("", true);
+            do
+            {
+                result = CreateStep();
 
-            //okay i have wrong idea about the pathw!!!!! nice
+                path = path + result.Item1;
+
+            } while (result.Item2 != false || ); //we also need to check if it found the solution or not
+
+            if (result.Item2 == false)
+            {
+
+               
+                string newpath = path.Remove(path.Length - 3); // Remove last 3 chars
+
+                return newpath;
+            }
+
+            return path;
 
         }
 
 
 
-
+        //now we need to seperate orginal board with solution boards for every path
 
     }
 }

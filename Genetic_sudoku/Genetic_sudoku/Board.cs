@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Genetic_sudoku;
@@ -46,6 +47,20 @@ namespace Genetic_sudoku
 
         }
 
+        public bool IsSolved(Tuple<int, bool>[,] sudoku)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (sudoku[i, j].Item1 == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
 
         public bool CheckCords(Tuple<int, bool>[,] sudoku, int number, int row, int col)
         {
@@ -73,30 +88,46 @@ namespace Genetic_sudoku
 
         }
 
-        public bool CheckIfAvaliable(Tuple<int, bool>[,] sudoku , int number)
+        public bool CheckPossibleVariations(Tuple<int, int>[] variations, int rows, int cols)
+        {
+            for(int i = 0; i < variations.Length; i++)
+            {
+                if (variations[i].Item1 == rows && variations[i].Item2 == cols)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        public bool CheckIfAvaliableCords(Tuple<int, bool>[,] sudoku , int row, int col)
+        {
+            return sudoku[row, col].Item1 != 0 ? false : true;
+                
+
+
+        }
+
+
+        public bool CheckIfAvaliableNumber(Tuple<int, bool>[,] sudoku, int number)
         {
             int numbers = 0;
-            for (int i = 0; i < 9; i++)
+
+            for (int i = 0; i <= 9; i++)
             {
-                for (int j = 0; j < 9; j++)
+               for (int j = 0; j <= 9; j++)
                 {
-                    if (sudoku[i, j].Item1 == Convert.ToInt32(number))
+                    if(sudoku[i,j].Item1 == number)
                     {
                         numbers++;
                     }
                 }
             }
 
-            if (numbers == 9)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-            /////// okay hiii
-            
+
+            return numbers == 9 ? false : true;
+
+
         }
         public static void DisplaySudoku(Tuple<int, bool>[,] sudoku)
         {
