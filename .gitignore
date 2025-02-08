@@ -404,3 +404,18 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 **/AssemblyInfo.cs
+
+# Ignore build directories and files
+/genetic_sudoku/bin/
+/genetic_sudoku/obj/
+
+/# Ignore compiled files
+*.dll
+*.exe
+*.pdb
+
+# Ignore user-specific files
+.vscode/
+.idea/
+
+
