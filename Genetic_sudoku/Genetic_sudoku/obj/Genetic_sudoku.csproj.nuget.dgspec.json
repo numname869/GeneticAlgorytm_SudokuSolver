@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\izakr\\source\\repos\\Genetic_sudoku\\Genetic_sudoku\\Genetic_sudoku.csproj": {}
+    "D:\\Genetic_Algorythm_Sudoku\\GeneticAlgorytm_SudokuSolver\\Genetic_sudoku\\Genetic_sudoku\\Genetic_sudoku.csproj": {}
   },
   "projects": {
-    "C:\\Users\\izakr\\source\\repos\\Genetic_sudoku\\Genetic_sudoku\\Genetic_sudoku.csproj": {
+    "D:\\Genetic_Algorythm_Sudoku\\GeneticAlgorytm_SudokuSolver\\Genetic_sudoku\\Genetic_sudoku\\Genetic_sudoku.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\izakr\\source\\repos\\Genetic_sudoku\\Genetic_sudoku\\Genetic_sudoku.csproj",
+        "projectUniqueName": "D:\\Genetic_Algorythm_Sudoku\\GeneticAlgorytm_SudokuSolver\\Genetic_sudoku\\Genetic_sudoku\\Genetic_sudoku.csproj",
         "projectName": "Genetic_sudoku",
-        "projectPath": "C:\\Users\\izakr\\source\\repos\\Genetic_sudoku\\Genetic_sudoku\\Genetic_sudoku.csproj",
+        "projectPath": "D:\\Genetic_Algorythm_Sudoku\\GeneticAlgorytm_SudokuSolver\\Genetic_sudoku\\Genetic_sudoku\\Genetic_sudoku.csproj",
         "packagesPath": "C:\\Users\\izakr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\izakr\\source\\repos\\Genetic_sudoku\\Genetic_sudoku\\obj\\",
+        "outputPath": "D:\\Genetic_Algorythm_Sudoku\\GeneticAlgorytm_SudokuSolver\\Genetic_sudoku\\Genetic_sudoku\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

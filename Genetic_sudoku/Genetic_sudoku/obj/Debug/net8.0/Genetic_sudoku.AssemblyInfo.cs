@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Genetic_sudoku")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e7f545c002ae64b28ff13f3d61d01b62baa85c5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Genetic_sudoku")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Genetic_sudoku")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
