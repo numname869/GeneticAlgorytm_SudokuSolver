@@ -95,7 +95,8 @@ namespace Genetic_sudoku
             {
                 return true;
             }
-
+            /////// okay hiii
+            
         }
         public static void DisplaySudoku(Tuple<int, bool>[,] sudoku)
         {
