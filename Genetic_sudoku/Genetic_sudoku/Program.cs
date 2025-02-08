@@ -65,7 +65,7 @@ namespace Genetic_sudoku
              generation.CreatePath();
 
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 12; i++)
             {
                 var result = generation.CreatePath();
 

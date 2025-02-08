@@ -35,7 +35,7 @@ namespace Genetic_sudoku
             _board = board;
         }
 
-        public (string, bool) CreateStep()
+        public (string, bool) CreateStep(Tuple<int, bool>[,] board)
         {
             bool logic = true;
             //it cant choose occupied place
@@ -49,7 +49,7 @@ namespace Genetic_sudoku
 
                number = random.Next(1, 10);
 
-            } while (_board.CheckIfAvaliableNumber(_board._sudoku, number) == false);
+            } while (_board.CheckIfAvaliableNumber( board, number) == false);
             step = step + number;
             int col = 0;
             int row = 0;
@@ -57,14 +57,19 @@ namespace Genetic_sudoku
             Tuple<int, int>[] variations = new Tuple<int, int>[81];
 
            
+                for(int i = 0; i < 10; i++)
+            {
+                col = random.Next(0, 9);
+                row = random.Next(0, 9);
+
+                if (_board.CheckCords(board, number, row, col) == true) break;
+            }
                 
-                    col = random.Next(0, 9);
-                    row = random.Next(0, 9);
 
 
            
 
-            logic = _board.CheckCords(_board._sudoku, number, row, col);
+            logic = _board.CheckCords(board, number, row, col);
 
             step = step + col + row;
 
@@ -80,10 +85,11 @@ namespace Genetic_sudoku
             var result = ("", true);
             do
             {
-                result = CreateStep();
+                result = CreateStep(board);
 
                 path = path + result.Item1;
-
+                
+                //every step can adjust 10 times max
                if(result.Item2 == true)
                 {
                     int row = int.Parse(result.Item1[2].ToString());

@@ -91,25 +91,22 @@ namespace Genetic_sudoku
 
         public bool CheckSquare(Tuple<int, bool>[,] sudoku, int row, int col, int number)
         {
-          
-          int row_modifier =  row == 9 ?  3 : row % 3 + 1 ;
-            int col_modifier = col == 9 ?  3 : col % 3 + 1;
+            int startRow = row / 3 * 3;
+            int startCol = col / 3 * 3;
 
-
-
-
-            for (int i = 3 * row_modifier - 3; i < 3 * row_modifier; i++)
+            for (int i = startRow; i < startRow + 3; i++)
             {
-                for (int j = 3 * col_modifier - 3; j < 3 * col_modifier; j++)
+                for (int j = startCol; j < startCol + 3; j++)
                 {
                     if (sudoku[i, j].Item1 == number)
                     {
-                        return false;
+                        return false; // Number already exists in the 3x3 square
                     }
                 }
             }
-            return true;
+            return true; // Number is valid
         }
+
         public bool IsSolved(Tuple<int, bool>[,] sudoku)
         {
             for (int i = 0; i < 9; i++)
