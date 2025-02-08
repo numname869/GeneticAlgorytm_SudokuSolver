@@ -21,6 +21,48 @@ namespace Genetic_sudoku
             _sudoku = sudoku;
         }
 
+        public  Tuple<int, bool>[,] CopyBoard()
+        {
+            Tuple<int, bool>[,] copy = new Tuple<int, bool>[9, 9];
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    copy[i, j] = _sudoku[i, j];
+                }
+            }
+            return copy;
+        }
+
+        public bool CheckSolution(Tuple<int, bool>[,] board)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                if (!CheckRow(board, i, 9))
+                {
+                    return false;
+                }
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                if (!CheckCol(board, i, 9))
+                {
+                    return false;
+                }
+            }
+            for (int i = 0; i < 9; i += 3)
+            {
+                for (int j = 0; j < 9; j += 3)
+                {
+                    if (!CheckSquare(board, i, j, 9))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public void EditBoard(Tuple<int, bool>[,] sudoku, string step)
         {
             char[] options  = step.ToCharArray();
@@ -47,6 +89,27 @@ namespace Genetic_sudoku
 
         }
 
+        public bool CheckSquare(Tuple<int, bool>[,] sudoku, int row, int col, int number)
+        {
+          
+          int row_modifier =  row == 9 ?  3 : row % 3 + 1 ;
+            int col_modifier = col == 9 ?  3 : col % 3 + 1;
+
+
+
+
+            for (int i = 3 * row_modifier - 3; i < 3 * row_modifier; i++)
+            {
+                for (int j = 3 * col_modifier - 3; j < 3 * col_modifier; j++)
+                {
+                    if (sudoku[i, j].Item1 == number)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         public bool IsSolved(Tuple<int, bool>[,] sudoku)
         {
             for (int i = 0; i < 9; i++)
@@ -64,7 +127,7 @@ namespace Genetic_sudoku
 
         public bool CheckCords(Tuple<int, bool>[,] sudoku, int number, int row, int col)
         {
-            if (CheckRow(sudoku, row, number) && CheckCol(sudoku, col, number))
+            if (CheckRow(sudoku, row, number) && CheckCol(sudoku, col, number) && CheckSquare(sudoku,row,  col, number))
             {
                 if (sudoku[row, col].Item1 == 0)
                 
@@ -113,9 +176,9 @@ namespace Genetic_sudoku
         {
             int numbers = 0;
 
-            for (int i = 0; i <= 9; i++)
+            for (int i = 0; i < 9; i++)
             {
-               for (int j = 0; j <= 9; j++)
+               for (int j = 0; j < 9; j++)
                 {
                     if(sudoku[i,j].Item1 == number)
                     {

@@ -23,7 +23,7 @@ namespace Genetic_sudoku
        
 
         
-        string[] _population;
+       
         private Board _board;
 
 
@@ -47,7 +47,7 @@ namespace Genetic_sudoku
             do
             {
 
-               number = random.Next(1, 9);
+               number = random.Next(1, 10);
 
             } while (_board.CheckIfAvaliableNumber(_board._sudoku, number) == false);
             step = step + number;
@@ -55,12 +55,12 @@ namespace Genetic_sudoku
             int row = 0;
 
             Tuple<int, int>[] variations = new Tuple<int, int>[81];
-            int i = 0;
+
             do
             {
                 
                     col = random.Next(0, 9);
-                    row = random.Next(1, 9);
+                    row = random.Next(0, 9);
 
 
     
@@ -75,9 +75,10 @@ namespace Genetic_sudoku
 
         }
 
-        
-        public string CreatePath()
+  
+        public (string , Tuple<int, bool>[,]) CreatePath()
         {
+            Tuple<int, bool>[,] board = _board.CopyBoard();
             string path = "";
             var result = ("", true);
             do
@@ -86,7 +87,20 @@ namespace Genetic_sudoku
 
                 path = path + result.Item1;
 
-            } while (result.Item2 != false || ); //we also need to check if it found the solution or not
+               if(result.Item2 == true)
+                {
+                    int row = int.Parse(result.Item1[2].ToString());
+                    int col = int.Parse(result.Item1[1].ToString());
+                    int number = int.Parse(result.Item1[0].ToString());
+
+                    board[row, col] = new Tuple<int, bool>(number, true);
+
+                 
+                }
+                
+                    
+
+            } while (result.Item2 != false || _board.CheckSolution(board) ); //we also need to check if it found the solution or not
 
             if (result.Item2 == false)
             {
@@ -94,10 +108,10 @@ namespace Genetic_sudoku
                
                 string newpath = path.Remove(path.Length - 3); // Remove last 3 chars
 
-                return newpath;
+                return (newpath, board);
             }
 
-            return path;
+            return (path, board);
 
         }
 

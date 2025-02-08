@@ -18,7 +18,7 @@ namespace Genetic_sudoku
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    sudoku[i, j] = new Tuple<int, bool>( 0, false);
+                    sudoku[i, j] = new Tuple<int, bool>(0, false);
                 }
             }
 
@@ -58,6 +58,21 @@ namespace Genetic_sudoku
             Board board = new Board(sudoku);
 
             Board.DisplaySudoku(sudoku);
+            Console.WriteLine();
+
+             Generation generation = new Generation(board);
+
+             generation.CreatePath();
+
+              var result  = generation.CreatePath();
+
+             Board.DisplaySudoku(result.Item2);
+             Console.WriteLine(result.Item1);
+
+
+
+
+
 
 
         }
