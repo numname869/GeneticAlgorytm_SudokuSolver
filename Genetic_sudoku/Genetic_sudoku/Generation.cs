@@ -56,16 +56,13 @@ namespace Genetic_sudoku
 
             Tuple<int, int>[] variations = new Tuple<int, int>[81];
 
-            do
-            {
+           
                 
                     col = random.Next(0, 9);
                     row = random.Next(0, 9);
 
 
-    
-
-            } while (_board.CheckCords(_board._sudoku, number, row,col) == false);
+           
 
             logic = _board.CheckCords(_board._sudoku, number, row, col);
 
@@ -100,7 +97,7 @@ namespace Genetic_sudoku
                 
                     
 
-            } while (result.Item2 != false || _board.CheckSolution(board) ); //we also need to check if it found the solution or not
+            } while (result.Item2 != false || _board.CheckSolution(board) ); 
 
             if (result.Item2 == false)
             {

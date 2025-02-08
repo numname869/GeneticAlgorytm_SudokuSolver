@@ -64,13 +64,16 @@ namespace Genetic_sudoku
 
              generation.CreatePath();
 
-              var result  = generation.CreatePath();
 
-             Board.DisplaySudoku(result.Item2);
-             Console.WriteLine(result.Item1);
+            for (int i = 0; i < 30; i++)
+            {
+                var result = generation.CreatePath();
+
+                Board.DisplaySudoku(result.Item2);
+                Console.WriteLine(result.Item1);
 
 
-
+            }
 
 
 
