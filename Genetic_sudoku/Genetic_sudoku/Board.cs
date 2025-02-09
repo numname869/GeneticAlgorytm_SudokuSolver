@@ -100,11 +100,11 @@ namespace Genetic_sudoku
                 {
                     if (sudoku[i, j].Item1 == number)
                     {
-                        return false; // Number already exists in the 3x3 square
+                        return false; 
                     }
                 }
             }
-            return true; // Number is valid
+            return true; 
         }
 
         public bool IsSolved(Tuple<int, bool>[,] sudoku)
@@ -228,6 +228,8 @@ namespace Genetic_sudoku
                     if ((i + 1) % 3 == 0 && i != 8)
                         Console.WriteLine("------+-------+------");
                 }
+            
+            Console.WriteLine();
             }
 
         }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Genetic_sudoku;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
@@ -56,8 +57,9 @@ namespace Genetic_sudoku
 
             Tuple<int, int>[] variations = new Tuple<int, int>[81];
 
-           
-                for(int i = 0; i < 10; i++)
+            //every step can adjust 10 times max
+
+            for (int i = 0; i < 10; i++)
             {
                 col = random.Next(0, 9);
                 row = random.Next(0, 9);
@@ -77,7 +79,22 @@ namespace Genetic_sudoku
 
         }
 
-  
+        public  bool TakeStep(Tuple<int, bool>[,] board , string step)
+        {
+            int number = int.Parse(step[0].ToString()); 
+            string row = step[1].ToString();
+            string col = step[2].ToString();
+           if( _board.CheckIfAvaliableNumber(board, number) == false ) return  false;
+            if (_board.CheckCords(board, number, int.Parse(row), int.Parse(col)) == false) return  false;
+            return  true;
+
+
+        }
+
+       
+
+
+
         public (string , Tuple<int, bool>[,]) CreatePath()
         {
             Tuple<int, bool>[,] board = _board.CopyBoard();
@@ -89,7 +106,7 @@ namespace Genetic_sudoku
 
                 path = path + result.Item1;
                 
-                //every step can adjust 10 times max
+             
                if(result.Item2 == true)
                 {
                     int row = int.Parse(result.Item1[2].ToString());

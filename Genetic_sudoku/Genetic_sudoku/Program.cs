@@ -62,18 +62,14 @@ namespace Genetic_sudoku
 
              Generation generation = new Generation(board);
 
-             generation.CreatePath();
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(generation, board);
 
 
-            for (int i = 0; i < 12; i++)
-            {
-                var result = generation.CreatePath();
-
-                Board.DisplaySudoku(result.Item2);
-                Console.WriteLine(result.Item1);
+            geneticAlgorithm.Run();
+         
 
 
-            }
+
 
 
 
