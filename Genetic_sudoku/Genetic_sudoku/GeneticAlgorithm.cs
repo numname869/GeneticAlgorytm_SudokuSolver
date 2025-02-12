@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,21 +35,36 @@ namespace Genetic_sudoku
                
             }
 
+
+            
+
+
             return gen;
         }
 
-        public Tuple<string, Tuple<int, bool>[,]>[] GenerationInOrder(Tuple<string, Tuple<int, bool>[,]>[] gen)
+
+        public void GerRidOfNULL(Tuple<string, Tuple<int, bool>[,]>[] gen)
         {
-            
+            for (int i = 0; i < 12; i++)
+            {
+                if (gen[i] == null)
+                {
+                    gen[i] = new Tuple<string, Tuple<int, bool>[,]>("0", _board.ReturnEmptyBoard()); // tu cos bedzie trzeba wlozyc
+                }
+            }
 
-            
+        }
 
-            //var sorted = gen.OrderBy(item => item.Item1.Length).ToArray();
-            //desc
+public Tuple<string, Tuple<int, bool>[,]>[] GenerationInOrder(Tuple<string, Tuple<int, bool>[,]>[] gen)
+        {
+            //z jakiegos powodu dostaje null i nie ma zadnej tablicy z true?? tak jakby wgl nic nie wyłapywało, co jest nie tak, string jest pusty
+            if (gen == null || gen.Any(item => item == null))
+            {
+                throw new ArgumentNullException(nameof(gen), "The generation array contains null elements.");
+            }
+
             var sorted = gen.OrderByDescending(item => item.Item1.Length).ToArray();
-
             return sorted;
-
         }
 
 
@@ -91,30 +107,47 @@ namespace Genetic_sudoku
 
             return false;
         }
-        
+
         public Tuple<int, int>[] ParentSelection()
         {
+           
+
             Tuple<int, int>[] parents = new Tuple<int, int>[6];
-            
-            for (int i = 0; i < 6; i++)
+            List<int> parentsid = new List<int> { 0, 1, 2, 3, 4, 5 };
+
+         
+
+            for(int i = 0; i < 3; i++)
             {
-                
                 do
                 {
-                    parents[i] = new Tuple<int, int>(random.Next(0, 6), random.Next(0, 6));
-                } while (parents[i].Item1 == parents[i].Item2 ||CheckIfParentsExists(parents, parents[i].Item1, parents[i].Item2) ); //tu jakas funkcja sprawdzająca czy istnieje juz taka para rodziców
+                    parents[i] = new Tuple<int, int>(parentsid[random.Next(0, parentsid.Count)], parentsid[random.Next(0, parentsid.Count)]);
+                } while (parents[i].Item1 == parents[i].Item2 );
 
-               
+                parentsid.Remove(parents[i].Item1);
+                parentsid.Remove(parents[i].Item2);
+                Console.WriteLine($"{parents[i].Item1} {parents[i].Item2}");
             }
+
+
+
+
+
+
             return parents;
-         }
+        }
         
 
         public (int , int ) PickRandomStringPart(string path)
         {
             int min = 0;
             int max = 0;
+
+
+            if(path.Length == 3) return (0, 2);
+
             do {
+               
                  min = GetRandomDivisibleByThree(0, path.Length - 3);
                  max = GetRandomDivisibleByThree(min, path.Length - 3);
             } while (min >= max);
@@ -148,59 +181,55 @@ namespace Genetic_sudoku
 
         public string EditString(string path, int min, int max)
         {
-            string newpath = "";
-            for (int i = min; i <= max; i++)
+            if (min < 0 || max >= path.Length || min > max)
             {
-                newpath = newpath + path[i];
+                throw new ArgumentOutOfRangeException("min or max is out of range of the string.");
             }
 
-            return newpath;
+            
+            if (path.Length == 3)
+            {
+                return path;
+            }
+
+          
+            StringBuilder newpath = new StringBuilder();
+            for (int i = min; i <= max; i++)
+            {
+                newpath.Append(path[i]);
+            }
+
+         
+            _generation.CheckIfPathNull(newpath.ToString());
+
+            return newpath.ToString();
 
         }
 
 
         public string Crossover(string parent1, string parent2)
         {
-            string child = "";
+            // Check for null or empty parents
+            if (string.IsNullOrEmpty(parent1) || string.IsNullOrEmpty(parent2))
+            {
+                throw new ArgumentException("Both parent strings must be non-null and non-empty.");
+            }
+
+            // Randomly choose which parent will be first
             int HeadOrTails = random.Next(0, 2);
-            if (HeadOrTails == 0)
-            {
-                child = parent1 + parent2;
-            }
-            else
-            {
-                child = parent2 + parent1;
-            }
+            string child = HeadOrTails == 0 ? parent1 + parent2 : parent2 + parent1;
 
             return child;
         }
 
-        public (string,string) CreateChild(Tuple<string, Tuple<int, bool>[,]>[] pastgen, Tuple<int, int>[] parents,  int i)
+        public (string,string) CreateChild(Tuple<string, Tuple<int, bool>[,]>[] pastgen, Tuple<int, int>[] parents,  int i , int parentindex)
         {
 
-           
-            var parent1minmax_1 = PickRandomStringPart(pastgen[parents[i].Item1].Item1);
-            var parent2minmax_1 = PickRandomStringPart(pastgen[parents[i].Item2].Item1);
 
-            string parent1string_1 =  EditString(pastgen[parents[i].Item1].Item1 , parent1minmax_1.Item1, parent1minmax_1.Item2);
-            string parent2string_1 =  EditString(pastgen[parents[i].Item2].Item1, parent2minmax_1.Item1, parent2minmax_1.Item2);
+          //od nowa
 
+         
 
-            var parent1minmax_2 = PickRandomStringPart(pastgen[parents[i].Item1].Item1);
-            var parent2minmax_2 = PickRandomStringPart(pastgen[parents[i].Item2].Item1);
-
-            string parent1string_2 = EditString(pastgen[parents[i].Item1].Item1, parent1minmax_2.Item1, parent1minmax_2.Item2);
-            string parent2string_2 = EditString(pastgen[parents[i].Item2].Item1, parent2minmax_2.Item1, parent2minmax_2.Item2);
-
-
-
-            string child1 = Crossover(parent1string_1, parent2string_1); 
-            string child2 = Crossover(parent1string_2, parent2string_2);
-
-            //need to iplement mutation later
-
-
-            return (child1, child2);
 
 
         }
@@ -225,6 +254,7 @@ namespace Genetic_sudoku
                 }
                 
             }
+           
             return (possiblepath, board);
         }
 
@@ -232,16 +262,20 @@ namespace Genetic_sudoku
         {
             Tuple<int, int>[] parents = ParentSelection();
             Tuple<string, Tuple<int, bool>[,]>[] newgen = new Tuple<string, Tuple<int, bool>[,]>[12];
-            for (int i = 1; i <= 6; i = i+2)
+
+
+            int parentindex = 0;
+            for (int i = 0; i < 6; i = i+2)
             {
                // new Tuple<int, bool>(9, false);
-                var children = CreateChild(pastgen, parents, i);
+                var children = CreateChild(pastgen, parents, i , parentindex);
 
                 var value1 = CheckNewString(children.Item1);
                 var value2 = CheckNewString(children.Item2);
 
                 newgen[i] =   new Tuple< string, Tuple<int, bool>[,] >(value1.Item1, value1.Item2); //tu trzeba stworzyc nową tablice
                 newgen[i + 1] = new Tuple<string, Tuple<int, bool>[,]>(value2.Item1, value2.Item2);
+                parentindex++;
 
             }
 

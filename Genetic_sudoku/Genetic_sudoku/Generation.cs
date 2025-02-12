@@ -130,12 +130,26 @@ namespace Genetic_sudoku
 
                 return (newpath, board);
             }
+            
+
+            path = CheckIfPathNull(path);
 
             return (path, board);
 
         }
 
 
+
+        public string CheckIfPathNull(string path)
+        {
+            
+            if(path == "")
+            {
+                path = "0";
+            }
+
+            return path;
+        }
 
         //now we need to seperate orginal board with solution boards for every path
 

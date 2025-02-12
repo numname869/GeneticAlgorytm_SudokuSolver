@@ -21,6 +21,14 @@ namespace Genetic_sudoku
             _sudoku = sudoku;
         }
 
+
+
+        public Tuple<int, bool>[,] ReturnEmptyBoard()
+        {
+
+            return _sudoku;
+        }
+
         public  Tuple<int, bool>[,] CopyBoard()
         {
             Tuple<int, bool>[,] copy = new Tuple<int, bool>[9, 9];

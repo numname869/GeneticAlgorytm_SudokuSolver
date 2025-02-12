@@ -11,6 +11,9 @@ namespace Genetic_sudoku
         {
             
 
+         
+
+
             Tuple<int,bool >[,] sudoku = new Tuple<int, bool>[9, 9];
 
 
